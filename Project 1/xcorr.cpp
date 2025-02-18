@@ -1,5 +1,5 @@
 /**
- * main.cpp
+ * xcorr.cpp
  * 
  * BERNARDO, Jonathan
  * FERRER, Matt
@@ -14,148 +14,72 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include "xcorr_functions.h"
 
 using namespace std;
 
-class engg151Signal
-{
-  public:
-    double* s_data;
-    int s_start;
-    int s_duration; 
-
-    /**
-     * Default constructor for the engg151Signal class.
-     * Suggested default: one-element signal with value 0.0, 
-     * start index 0
-     */
-    engg151Signal() 
-    {
-      s_data[1] = {0.0};
-      s_start = 0;
-      s_duration = 1;
-    }
-    /**
-      * Constructor for the engg151Signal class, given an array of 
-      * double x, a start index s, and a duration d.
-      */
-    engg151Signal(double* x, int s, int d) 
-    {
-      
-      s_data = x;
-      s_start = s;
-      s_duration = d;
-    } 
-    /**
-      * returns true if a valid signal was actually obtained from 
-      * filename
-      * returns false otherwise
-      */
-    bool importSignalFromFile(string filename, engg151Signal& signal) 
-    {
-      ifstream myfile;
-      stringstream ss;
-      string line;
-      int duration = 0;
-      int start;
-      double first, second;
-      int number;
-      vector<double> data;
-
-      // check if filename is valid
-      myfile.open(filename);
-      if (!myfile.is_open()) return false;
-
-       // get first line of file
-      getline(myfile, line);
-      ss.str(line);
-
-      // checks the first line if there is an optional starting index
-      ss >> first;
-      if (ss >> second)
-      {
-        if (trunc(first) == first)  // check if first is an integer
-        {  
-          start = first;
-        }
-        else
-        {
-          start = 0;
-        }
-        data.push_back(second);
-      }
-      else
-      {
-        start = 0;
-        data.push_back(first);
-      }
-      
-      // get following lines of data
-      while (getline(myfile, line))
-      {
-        ss.str(line);
-        ss.clear();
-        double value;
-        ss >> value;
-        data.push_back(value);
-        duration++;
-      }
-      engg151Signal new_signal(data.data(), start, duration);
-      signal = new_signal;
-      
-      return true;
-    }
-    /**
-     * returns true if the signal was successfully exported to a 
-     * file
-     * returns false otherwise
-     */
-    bool exportSignalToFile(string filename) 
-    {
-      
-      return false;
-    }
-    
-    int start() 
-    {
-      return s_start;
-    }
-    int end() 
-    {
-      return s_start + s_duration - 1;
-    }
-    int duration() 
-    {
-      return s_duration;
-    }
-    double* data() 
-    {
-      return s_data;
-    }
-};
-
-/**
- * computes the normalized crosscorrelation of x crosscorrelated 
- * with y and returns the normalized crosscorrelation as a 
- * signal object.
- * Note that the crosscorrelation is not commutative.
- * This does not need to be a class member.
- */
-engg151Signal normalizedXCorr(engg151Signal x, engg151Signal y) 
-{
-  return engg151Signal();
-}
-
 int main(int argc, char* argv[]) 
 {
-  if (argc != 3)  // invalid number of arguments
+  if (argc != 4)  // invalid number of arguments
   {  
-    cout << "Correct Usage: xcorr [xdata] [ydata] [output file]\n";
+    cout << "Correct Usage: xcorr [x_file] [y_file] [output file]\n";
     return 1;
   }
-  string xdata = argv[0];
-  string ydata = argv[1];
-  string output = argv[2];
+  string x_file = argv[1];
+  string y_file = argv[2];
+  string output = argv[3];
+
+  // default variable definitions
+  double* x_data = new double[0];
+  double* y_data = new double[0];
+  double* rho_data = new double[0];
+  int x_duration = 0;
+  int y_duration = 0;
+  int x_start = 0;
+  int y_start = 0;
+  int rho_start = 0;
+  int rho_duration = 0;
+
+  // import data from files
+  if (!importSignalFromFile(x_file, x_data, x_duration, x_start))
+  {
+    cout << "Unable to import a valid signal from " << x_file << "\n";
+    return 1;
+  }
+  else
+  {
+    cout << "Signal with start index " << x_start << ", duration "
+         << x_duration << ",  imported from "<< x_file << "\n";
+  }
+  if (!importSignalFromFile(y_file, y_data, y_duration, y_start))
+  {
+    cout << "Unable to import a valid signal from " << y_file << "\n";
+    return 1;
+  }
+  else
+  {
+    cout << "Signal with start index " << y_start << ", duration "
+         << y_duration << ",  imported from "<< y_file << "\n";
+  }
+  
+  // compute normalized crosscorrelation and output to output_data
+  normalizedXCorr(x_data, y_data, x_duration, y_duration, x_start, 
+    y_start, rho_start, rho_duration, rho_data);
+
+  // export the normalized crosscorrelation to the output file
+  if(!exportSignalToFile(output, rho_data, rho_duration, rho_start))
+  {
+    cout << "Unable to export the signal with start index " 
+         << rho_start << ", duration " << rho_duration 
+         << ", to " << output << "\n";
+    return 1;
+  }
+  else
+  {
+    cout << "\nCrosscorrelation with start index " << rho_start 
+         << ", duration " << rho_duration << ", exported to " 
+         << output << "\n";
+  }
 
   return 0;
 }
