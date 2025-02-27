@@ -6,11 +6,15 @@
  * 
  * Project 2 - Fourier Transform
  * ENGG 151.01 - A
-*/
+ */
 
-#include <fstream>
-#include <iostream>
-#include <string>
+ #include <cmath>
+ #include <fstream>
+ #include <iostream>
+ #include <sstream>
+ #include <string>
+ #include <vector>
+ #include "dft_functions.h"
 
 using namespace std;
 
