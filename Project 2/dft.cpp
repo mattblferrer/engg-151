@@ -20,7 +20,7 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-  if (argc != 6 || argc != 7)  // invalid number of arguments
+  if (argc != 6 && argc != 7)  // invalid number of arguments
   {
     cout << "Correct Usage: dft [signal-file] [sampling-rate] "; 
     cout << "[start-freq] [end-freq] [nSteps] [optional logfile]\n";
@@ -43,7 +43,9 @@ int main(int argc, char* argv[])
   }
 
   // create double pointers for DFT data and results
-  
+  double* xData;
+  double* realPart;
+  double* imagPart;
   
   return 0;
 }
