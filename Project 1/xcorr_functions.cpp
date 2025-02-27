@@ -6,7 +6,7 @@
  * 
  * Project 1 - Normalized Crosscorrelation
  * ENGG 151.01 - A
-*/
+ */
 
 #include <cmath>
 #include <fstream>
@@ -19,10 +19,10 @@
 using namespace std;
 
 /**
-* returns true if a valid signal was actually obtained from 
-* filename
-* returns false otherwise
-*/
+ * returns true if a valid signal was actually obtained from 
+ * filename
+ * returns false otherwise
+ */
 bool importSignalFromFile(string filename, double*& output_data,
   int& duration, int& start) 
 {
