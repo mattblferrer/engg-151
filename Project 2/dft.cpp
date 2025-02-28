@@ -45,10 +45,10 @@ int main(int argc, char* argv[])
 
   // create double pointers and ints for DFT data and results
   double* xData = new double[0];
-  double* realPart = new double[0];
-  double* imagPart = new double[0];
-  double* magnitude = new double[0];
-  double* phase = new double[0];
+  double* realPart = new double[nSteps + 1];
+  double* imagPart = new double[nSteps + 1];
+  double* magnitude = new double[nSteps + 1];
+  double* phase = new double[nSteps + 1];
   int duration = 0;
   int start = 0;
 
