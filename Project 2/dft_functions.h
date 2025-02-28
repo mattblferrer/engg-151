@@ -31,8 +31,8 @@ bool importSignalFromFile(string filename, double*& outputData,
  * returns false otherwise
  */
 bool exportDFTToFile(string filename, double startFreq, 
-  double endFreq, int nSteps, double** realPart, double** imagPart, 
-  double** magnitude, double** phase);
+  double endFreq, int nSteps, double* realPart, double* imagPart, 
+  double* magnitude, double* phase);
 
 /**
  * computes the Discrete Fourier Transform of the signal x(n)
@@ -41,5 +41,5 @@ bool exportDFTToFile(string filename, double startFreq,
 void computeDFT(
   double* xData, int xDuration,
   double samplingFreq, double startFreq, double endFreq, int nSteps,
-  double** realPart, double** imagPart,
-  double** magnitude, double** phase);
+  double*& realPart, double*& imagPart,
+  double*& magnitude, double*& phase);

@@ -33,19 +33,53 @@ int main(int argc, char* argv[])
   double startFreq = stod(argv[3]);
   double endFreq = stod(argv[4]);
   int nSteps = stoi(argv[5]);
+  string logFile;
   if (argc == 7)  // logfile is provided
   {
-    string logfile = argv[6];
+    logFile = argv[6];
   }
   else  // logfile not provided, fallback to default
   {
-    string logfile = "dftlog.txt";
+    logFile = "dftlog.txt";
   }
 
-  // create double pointers for DFT data and results
-  double* xData;
-  double* realPart;
-  double* imagPart;
+  // create double pointers and ints for DFT data and results
+  double* xData = new double[0];
+  double* realPart = new double[0];
+  double* imagPart = new double[0];
+  double* magnitude = new double[0];
+  double* phase = new double[0];
+  int duration = 0;
+  int start = 0;
+
+  // import signal from file
+  if (!importSignalFromFile(signalFile, xData, duration, start))
+  {
+    cout << "Unable to import a valid signal from " << signalFile 
+         << "\n";
+    return 1;
+  }
+  else
+  {
+    cout << "Signal with start index " << start << ", duration "
+         << duration << ",  imported from "<< signalFile << "\n";
+  }
+
+  // compute DFT
+  computeDFT(xData, duration, samplingRate, startFreq, endFreq, 
+    nSteps, realPart, imagPart, magnitude, phase);
+
+  // export DFT data to file
+  if (!exportDFTToFile(logFile, startFreq, endFreq, nSteps, 
+    realPart, imagPart, magnitude, phase))
+  {
+    cout << "Unable to export DFT data to " << logFile << "\n";
+    return 1;
+  }
+  else
+  {
+    cout << "DFT data successfully exported to " << logFile << "\n";
+  }
   
   return 0;
 }
