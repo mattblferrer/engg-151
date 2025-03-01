@@ -93,7 +93,7 @@ bool exportDFTToFile(string filename, double startFreq,
   double* magnitude, double* phase)
 {
   ofstream myfile;
-  myfile.open(filename);
+  myfile.open(filename, ios::app);
   if (!(myfile.is_open())) return false;
   myfile << fixed;
 
@@ -112,7 +112,6 @@ bool exportDFTToFile(string filename, double startFreq,
     myfile << startFreq + i * (endFreq - startFreq) / nSteps << "\t"
            << magnitude[i] << "\t" << phase[i] << "\n";
   }
-  cout << "DFT data successfully exported to " << filename << "\n";
   cout << fixed;  // convert from scientific notation to fixed format
 
   // output results from log file to console
