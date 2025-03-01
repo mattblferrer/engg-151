@@ -39,7 +39,7 @@ bool exportDFTToFile(string filename, double startFreq,
  * and stores the real and imaginary parts, magnitude, and phase
  */
 void computeDFT(
-  double* xData, int xDuration,
-  double samplingFreq, double startFreq, double endFreq, int nSteps,
+  double* xData, int duration,
+  double samplingRate, double startFreq, double endFreq, int nSteps,
   double*& realPart, double*& imagPart,
   double*& magnitude, double*& phase);

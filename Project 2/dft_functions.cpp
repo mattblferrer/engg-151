@@ -91,7 +91,48 @@ bool exportDFTToFile(string filename, double startFreq,
   double endFreq, int nSteps, double* realPart, double* imagPart, 
   double* magnitude, double* phase)
 {
-  return false;
+  ofstream myfile;
+  myfile.open(filename);
+  if (!(myfile.is_open())) return false;
+
+  // export the first set of DFT data to the log file
+  myfile << "Frequency (Hz)\treal part\timaginary part\n";
+  for (int i = 0; i < nSteps + 1; i++)
+  {
+    myfile << startFreq + i * (endFreq - startFreq) / nSteps << "\t"
+           << realPart[i] << "\t" << imagPart[i] << "\n";
+  }
+
+  // export the second set of DFT data to the log file
+  myfile << "\n\nFrequency (Hz)\treal part\timaginary part\n";
+  for (int i = 0; i < nSteps + 1; i++)
+  {
+    myfile << startFreq + i * (endFreq - startFreq) / nSteps << "\t"
+           << magnitude[i] << "\t" << phase[i] << "\n";
+  }
+  cout << "DFT data successfully exported to " << filename << "\n";
+
+  // output results from log file to console
+  if (nSteps < 10)
+  {
+    // print the first set of DFT data
+    cout << "Frequency (Hz)\treal part\timaginary part\n";
+    for (int i = 0; i < nSteps + 1; i++)
+    {
+      cout << startFreq + i * (endFreq - startFreq) / nSteps << "\t"
+           << realPart[i] << "\t" << imagPart[i] << "\n";
+    }
+
+    // print the second set of DFT data
+    cout << "\n\nFrequency (Hz)\treal part\timaginary part\n";
+    for (int i = 0; i < nSteps + 1; i++)
+    {
+      cout << startFreq + i * (endFreq - startFreq) / nSteps << "\t"
+           << magnitude[i] << "\t" << phase[i] << "\n";
+    }
+  }
+
+  return true;
 }
 
 /**
@@ -99,8 +140,8 @@ bool exportDFTToFile(string filename, double startFreq,
  * and stores the real and imaginary parts, magnitude, and phase
  */
 void computeDFT(
-  double* xData, int xDuration,
-  double samplingFreq, double startFreq, double endFreq, int nSteps,
+  double* xData, int duration,
+  double samplingRate, double startFreq, double endFreq, int nSteps,
   double*& realPart, double*& imagPart,
   double*& magnitude, double*& phase)
 {
