@@ -10,6 +10,7 @@
 
 #include <cmath>
 #include <fstream>
+#include <iomanip>
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -94,9 +95,10 @@ bool exportDFTToFile(string filename, double startFreq,
   ofstream myfile;
   myfile.open(filename);
   if (!(myfile.is_open())) return false;
+  myfile << fixed;
 
   // export the first set of DFT data to the log file
-  myfile << "Frequency (Hz)\treal part\timaginary part\n";
+  myfile << "frequency (Hz)\treal part\timaginary part\n";
   for (int i = 0; i < nSteps + 1; i++)
   {
     myfile << startFreq + i * (endFreq - startFreq) / nSteps << "\t"
@@ -104,19 +106,20 @@ bool exportDFTToFile(string filename, double startFreq,
   }
 
   // export the second set of DFT data to the log file
-  myfile << "\n\nFrequency (Hz)\treal part\timaginary part\n";
+  myfile << "\n\nfrequency (Hz)\tmagnitude\tphase (degrees)\n";
   for (int i = 0; i < nSteps + 1; i++)
   {
     myfile << startFreq + i * (endFreq - startFreq) / nSteps << "\t"
            << magnitude[i] << "\t" << phase[i] << "\n";
   }
   cout << "DFT data successfully exported to " << filename << "\n";
+  cout << fixed;  // convert from scientific notation to fixed format
 
   // output results from log file to console
   if (nSteps < 10)
   {
     // print the first set of DFT data
-    cout << "Frequency (Hz)\treal part\timaginary part\n";
+    cout << "frequency (Hz)\treal part\timaginary part\n";
     for (int i = 0; i < nSteps + 1; i++)
     {
       cout << startFreq + i * (endFreq - startFreq) / nSteps << "\t"
@@ -124,7 +127,7 @@ bool exportDFTToFile(string filename, double startFreq,
     }
 
     // print the second set of DFT data
-    cout << "\n\nFrequency (Hz)\treal part\timaginary part\n";
+    cout << "\n\nfrequency (Hz)\tmagnitude\tphase (degrees)\n";
     for (int i = 0; i < nSteps + 1; i++)
     {
       cout << startFreq + i * (endFreq - startFreq) / nSteps << "\t"
@@ -145,6 +148,25 @@ void computeDFT(
   double*& realPart, double*& imagPart,
   double*& magnitude, double*& phase)
 {
+  for (int i = 0; i < nSteps + 1; i++)  // initialize DFT arrays to 0
+  {
+    double currFreq = startFreq + i * (endFreq - startFreq) / nSteps;
+    realPart[i] = 0;
+    imagPart[i] = 0;
+    magnitude[i] = 0;
+    phase[i] = 0;
+    
+    for (int j = 0; j < duration; j++)  // compute DFT rectangular
+    {
+      realPart[i] += xData[j] * cos(2 * M_PI * currFreq 
+        * j / samplingRate);
+      imagPart[i] -= xData[j] * sin(2 * M_PI * currFreq 
+        * j / samplingRate);
+    }
 
+    // compute DFT polar from rectangular form
+    magnitude[i] = sqrt(pow(realPart[i], 2) + pow(imagPart[i], 2));
+    phase[i] = atan2(imagPart[i], realPart[i]) * 180 / M_PI;
+  }
 }
 
