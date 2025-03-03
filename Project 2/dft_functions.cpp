@@ -8,6 +8,8 @@
  * ENGG 151.01 - A
  */
 
+#define _USE_MATH_DEFINES 
+
 #include <cmath>
 #include <fstream>
 #include <iomanip>
