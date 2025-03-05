@@ -62,8 +62,8 @@ int main(int argc, char* argv[])
   }
   else
   {
-    cout << "Signal with start index " << start << ", duration "
-         << duration << ",  imported from "<< signalFile << "\n";
+    cout << "Signal of duration " << duration 
+         << " extracted from "<< signalFile << "\n";
   }
 
   // compute DFT
