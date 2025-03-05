@@ -26,7 +26,7 @@ using namespace std;
  * returns false otherwise
  */
 bool importSignalFromFile(string filename, double*& outputData,
-  int& duration, int& start) 
+  int& duration) 
 {
   ifstream myfile;
   stringstream ss;
@@ -43,22 +43,13 @@ bool importSignalFromFile(string filename, double*& outputData,
   ss.str(line);
 
   // checks the first line if there is an optional starting index
-  ss >> first;
+  if (!(ss >> first)) return false; // invalid starting index
   if (ss >> second)
   {
-    if (trunc(first) == first)  // check if first is an integer
-    {  
-      start = first;
-    }
-    else
-    {
-      start = 0;
-    }
     data.push_back(second);
   }
   else
   {
-    start = 0;
     data.push_back(first);
   }
 

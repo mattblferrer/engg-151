@@ -24,7 +24,7 @@ using namespace std;
 * returns false otherwise
 */
 bool importSignalFromFile(string filename, double*& outputData,
-  int& duration, int& start);
+  int& duration);
 
 /**
  * returns true if the DFT data was successfully exported to a DFT

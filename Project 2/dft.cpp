@@ -51,10 +51,9 @@ int main(int argc, char* argv[])
   double* magnitude = new double[nSteps + 1];
   double* phase = new double[nSteps + 1];
   int duration = 0;
-  int start = 0;
 
   // import signal from file
-  if (!importSignalFromFile(signalFile, xData, duration, start))
+  if (!importSignalFromFile(signalFile, xData, duration))
   {
     cout << "Unable to import a valid signal from " << signalFile 
          << "\n";
