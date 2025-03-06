@@ -30,10 +30,31 @@ int main(int argc, char* argv[])
 
   // valid number of arguments, parse command line arguments
   string signalFile = argv[1];
+
   double samplingRate = stod(argv[2]);
+  if (samplingRate <= 0) // invalid sampling rate
+  {
+    cout << "Invalid sampling rate. Enter a positive number.\n";
+    return 1;
+  }
+  
   double startFreq = stod(argv[3]);
   double endFreq = stod(argv[4]);
+  // invalid frequency range
+  if (startFreq >= endFreq)
+  {
+    cout << "Invalid frequency range. Enter positive numbers ";
+    cout << "with start frequency less than end frequency.\n";
+    return 1;
+  }
+
   int nSteps = stoi(argv[5]);
+  if (nSteps <= 0)  // invalid number of steps
+  {
+    cout << "Invalid number of steps. Enter a positive integer.\n";
+    return 1;
+  }
+
   string logFile;
   if (argc == 7)  // logfile is provided
   {
@@ -61,8 +82,8 @@ int main(int argc, char* argv[])
   }
   else
   {
-    cout << "Signal of duration " << duration 
-         << " extracted from "<< signalFile << "\n";
+    cout << "Signal of duration " << duration;
+    cout << " extracted from "<< signalFile << "\n";
   }
 
   // compute DFT
