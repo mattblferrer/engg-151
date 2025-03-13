@@ -165,3 +165,14 @@ void computeDFT(
   }
 }
 
+/**
+ * returns true if the input string is a valid positive integer
+ * greater than zero
+ */
+bool isPositiveInteger(const string& input)
+{
+  stringstream ss(input);
+  int num;
+  char extra;
+  return (ss >> num) && !(ss >> extra) && num > 0;
+}

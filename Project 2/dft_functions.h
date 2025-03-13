@@ -44,3 +44,9 @@ void computeDFT(
   double samplingRate, double startFreq, double endFreq, int nSteps,
   double*& realPart, double*& imagPart,
   double*& magnitude, double*& phase);
+
+/**
+ * returns true if the input string is a valid positive integer
+ * greater than zero
+ */
+bool isPositiveInteger(const string& input);

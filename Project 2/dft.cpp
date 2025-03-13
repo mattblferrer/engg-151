@@ -49,9 +49,10 @@ int main(int argc, char* argv[])
   }
 
   int nSteps = stoi(argv[5]);
-  if (nSteps <= 0)  // invalid number of steps
+  if (!isPositiveInteger(argv[5]))  // invalid number of nSteps
   {
-    cout << "Invalid number of steps. Enter a positive integer.\n";
+    cout << "Invalid number of steps. Enter a positive integer. ";
+    cout << "Do NOT put decimal points.\n";
     return 1;
   }
 
