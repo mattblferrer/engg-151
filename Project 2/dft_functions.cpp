@@ -33,6 +33,7 @@ bool importSignalFromFile(string filename, double*& outputData,
   string line;
   double first, second;
   vector<double> data;
+  char extra;
   
   // check if filename is valid
   myfile.open(filename);
@@ -43,13 +44,14 @@ bool importSignalFromFile(string filename, double*& outputData,
   ss.str(line);
 
   // checks the first line if there is an optional starting index
-  if (!(ss >> first)) return false; // invalid starting index
+  if (!(ss >> first)) return false; // invalid data
   if (ss >> second)
   {
     data.push_back(second);
   }
   else
   {
+    if (ss >> extra) return false; // starting index is not an integer
     data.push_back(first);
   }
 
@@ -65,6 +67,8 @@ bool importSignalFromFile(string filename, double*& outputData,
     data.push_back(value);
     duration++;
   }
+
+  myfile.close();
 
   // convert data as vector to array
   outputData = new double[duration];
