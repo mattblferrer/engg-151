@@ -31,9 +31,9 @@ bool importSignalFromFile(string filename, double*& outputData,
   ifstream myfile;
   stringstream ss;
   string line;
-  double first, second;
+  string first;
+  double second;
   vector<double> data;
-  char extra;
   
   // check if filename is valid
   myfile.open(filename);
@@ -43,16 +43,19 @@ bool importSignalFromFile(string filename, double*& outputData,
   getline(myfile, line);
   ss.str(line);
 
+  
+  if (!(ss >> first)) return false; // checks if there is a first line
+
   // checks the first line if there is an optional starting index
-  if (!(ss >> first)) return false; // invalid data
-  if (ss >> second)
+  if (!(ss >> second)) data.push_back(stod(first)); // no index
+  else 
   {
-    data.push_back(second);
-  }
-  else
-  {
-    if (ss >> extra) return false; // starting index is not an integer
-    data.push_back(first);
+    // validates that input does not have a non-numeric character
+    for (char a:first)
+    {
+      if (!isdigit(a)) return false;
+    }
+    data.push_back(second); 
   }
 
   duration++; // accounting the first line
