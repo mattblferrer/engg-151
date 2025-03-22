@@ -43,7 +43,6 @@ bool importSignalFromFile(string filename, double*& outputData,
   getline(myfile, line);
   ss.str(line);
 
-  
   if (!(ss >> first)) return false; // checks if there is a first line
 
   // checks the first line if there is an optional starting index
