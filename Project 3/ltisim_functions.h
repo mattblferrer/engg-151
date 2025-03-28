@@ -8,6 +8,7 @@
  * ENGG 151.01 - A
  */
 
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <sstream>
