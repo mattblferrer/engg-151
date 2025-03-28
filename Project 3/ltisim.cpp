@@ -1,5 +1,5 @@
 /**
- * 
+ * ltisim.cpp
  * 
  * BERNARDO, Jonathan
  * FERRER, Matt
@@ -16,9 +16,8 @@
 
 using namespace std;
 
-int main(int argc, char* argv[])
+int main()
 {
-  
-    
+
   return 0;
 }
