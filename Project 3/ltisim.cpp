@@ -21,6 +21,8 @@ using namespace std;
 int main()
 {
   bool exitTyped = false;
+  bool LTISpecified = false;
+  bool signalSpecified = false;
   string input;
   string command;
   string filename;
