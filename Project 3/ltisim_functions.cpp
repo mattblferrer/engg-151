@@ -22,9 +22,8 @@ using namespace std;
  * filename
  * returns false otherwise
  */
-// TODO: add start index to function
 bool importSignalFromFile(string filename, double*& outputData,
-  int& duration, int& start) 
+  int& duration)
 {
   ifstream myfile;
   stringstream ss;

@@ -23,7 +23,7 @@ using namespace std;
  * returns false otherwise
  */
 bool importSignalFromFile(string filename, double*& outputData,
-  int& duration, int& start); 
+  int& duration); 
 
 /**
  * returns true if a valid LTI system was actually obtained from 

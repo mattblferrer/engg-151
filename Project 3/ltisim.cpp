@@ -14,6 +14,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include "ltisim_functions.cpp"
 
 using namespace std;
 
@@ -24,6 +25,10 @@ int main()
   string command;
   string filename;
   stringstream ss;
+  int duration = 0;
+  double* signalData = new double[0];
+  double* aData = new double[0];
+  double* bData = new double[0];
   
   cout << "LTISim\nType \"help\" for more information.\n";
   while (!exitTyped)
@@ -44,23 +49,41 @@ int main()
         " of previous inputs and outputs to 0.\n";
       cout << "Type \"exit\" to exit the program.\n";
       cout << "Type \"cls\" to clear the screen.\n";
+      continue;
     }
     else if (input == "clear")
     {
-
+      continue;
     }
     else if (input == "exit")
     {
       exitTyped = true;
+      continue;
     }
     else if (input == "cls")
     {
       system("cls");
+      continue;
     }
 
     ss.str(input);
     ss >> command;
     ss >> filename;
+    if (command == "system")
+    {
+      
+    }
+    else if (command == "signal")
+    {
+      // import signal from file
+      if (!importSignalFromFile(filename, signalData, duration))
+      {
+        cout << "Unable to import a valid signal from " << filename 
+            << "\n";
+        return 1;
+      }
+      continue;
+    }
   }
   return 0;
 }
