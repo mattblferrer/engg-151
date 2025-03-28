@@ -4,7 +4,7 @@
  * BERNARDO, Jonathan
  * FERRER, Matt
  * 
- * Project 3 - 
+ * Project 3 - Linear Time-Invariant System Simulator
  * ENGG 151.01 - A
  */
 
