@@ -70,15 +70,15 @@ int main()
     {
       LTISpecified = false;
       signalSpecified = false;
-      int duration = 0;
-      int m = 0;
-      int n = 0;
-      int start = 0;
-      double* signalData = new double[0];
-      double* bData = new double[0];
-      double* aData = new double[0];
-      double* yData = new double[0];
-      double* xData = new double[0];
+      duration = 0;
+      m = 0;
+      n = 0;
+      start = 0;
+      signalData = new double[0];
+      bData = new double[0];
+      aData = new double[0];
+      yData = new double[0];
+      xData = new double[0];
       cout << "Memory cleared.\n";
     }
     else if (input == "exit")
