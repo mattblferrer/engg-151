@@ -30,6 +30,6 @@ bool importSignalFromFile(string filename, double*& outputData,
  * filename
  * returns false otherwise
  */
-bool importLTISystemFromFile(string filename, double*& a_data, 
-  double*& b_data, int& m, int& n);
+bool importLTISystemFromFile(string filename, double*& b_data, 
+  double*& a_data, int& m, int& n);
 

@@ -37,7 +37,9 @@ int main()
   {
     ss.clear();
     getline(cin, input);
-    if (input == "help")
+    ss.str(input);
+    ss >> command >> filename;
+    if (input == "help")  
     {
       cout << "\nLTISim - Linear Time-Invariant System Simulator\n";
       cout << "Type \"help\" for more information.\n";
@@ -51,27 +53,20 @@ int main()
         " of previous inputs and outputs to 0.\n";
       cout << "Type \"exit\" to exit the program.\n";
       cout << "Type \"cls\" to clear the screen.\n";
-      continue;
     }
     else if (input == "clear")
     {
-      continue;
+      
     }
     else if (input == "exit")
     {
       exitTyped = true;
-      continue;
     }
     else if (input == "cls")
     {
       system("cls");
-      continue;
     }
-
-    ss.str(input);
-    ss >> command;
-    ss >> filename;
-    if (command == "system")
+    else if (command == "system")
     {
       
     }

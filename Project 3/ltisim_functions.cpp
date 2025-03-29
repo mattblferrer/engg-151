@@ -84,9 +84,51 @@ bool importSignalFromFile(string filename, double*& outputData,
  * filename
  * returns false otherwise
  */
-// TODO: function implementation
-bool importLTISystemFromFile(string filename, double*& a_data, 
-  double*& b_data, int& m, int& n)
+bool importLTISystemFromFile(string filename, double*& b_data, 
+  double*& a_data, int& m, int& n)
 {
+  ifstream myfile;
+  stringstream ss;
+  string line;
+
+  // check if filename is valid
+  myfile.open(filename);
+  if (!(myfile.is_open())) return false;
+
+  // get first line of file (M + 1) and second line of file (N)
+  getline(myfile, line);
+  ss.str(line);
+  if (!(ss >> m)) return false; // checks if there is a first line
+  ss.clear();
+  getline(myfile, line);
+  ss.str(line);
+  if (!(ss >> n)) return false; // checks if there is a second line
+  ss.clear();
+  m--;
+
+  // allocate double arrays for b_data and a_data
+  b_data = new double[m + 1];
+  a_data = new double[n];
+
+  // get b_data and a_data from files
+  for (int i = 0; i <= m; i++)
+  {
+    ss.clear();
+    getline(myfile, line);
+    ss.str(line);
+    double value;
+    if (!(ss >> value)) return false; // checks if there is a value
+    b_data[i] = value;
+  }
+  for (int i = 0; i < n; i++)
+  {
+    ss.clear();
+    getline(myfile, line);
+    ss.str(line);
+    double value;
+    if (!(ss >> value)) return false; // checks if there is a value
+    a_data[i] = value;
+  }
+
   return true;
 }
