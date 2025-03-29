@@ -144,3 +144,46 @@ void compute_outputs(double* acoeff, double* bcoeff,
 {
 
 }
+
+/**
+ * prints the help menu for the program, invoked by typing the 
+ * command "help"
+ */
+void printHelpMenu()
+{
+  const string help_message = "\n"
+    "LTISim - Linear Time-Invariant System Simulator\n"
+    "Type \"help\" for more information.\n"
+    "Type \"system [filename]\" to extract an LTI system from a "
+    "file with the specified filename.\n"
+    "Type any floating point number to add another input to " 
+    "the LTI system.\n"
+    "Type \"signal [filename]\" to extract a signal from a file "
+    "with the specified filename.\n"
+    "Type \"clear\" to clear the application's memory of previous "
+    "inputs and outputs to 0.\n"
+    "Type \"exit\" to exit the program.\n"
+    "Type \"cls\" to clear the screen.\n";
+  cout << help_message;
+}
+
+/**
+ * clears the memory of the program by setting all variables to 0 and 
+ * deleting all dynamically allocated arrays
+ */
+void clearMemory(bool& LTISpecified, bool& signalSpecified, 
+  int& duration, int& m, int& n, int& start, double*& signalData, 
+  double*& bData, double*& aData, double*& yData, double*& xData)
+{
+  LTISpecified = false;
+  signalSpecified = false;
+  duration = 0;
+  m = 0;
+  n = 0;
+  start = 0;
+  signalData = new double[0];
+  bData = new double[0];
+  aData = new double[0];
+  yData = new double[0];
+  xData = new double[0];
+}

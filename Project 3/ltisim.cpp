@@ -27,6 +27,7 @@ int main()
   string command;
   string filename;
   stringstream ss;
+  ofstream logFile;
   int duration = 0;
   int m = 0;
   int n = 0;
@@ -38,7 +39,15 @@ int main()
   double* xData = new double[0];
   double doubleTest = 0.0;
   
+  // starting program logic
   cout << "LTISim\nType \"help\" for more information.\n";
+  logFile.open("ltisim-log.txt", ios::app);
+  if (!(logFile.is_open())) 
+  {
+    cout << "Unable to open log file \"ltisim-log.txt\".\n";
+  }
+
+  // program loop, will only exit when command exit is typed
   while (!exitTyped)
   {
     ss.clear();
@@ -53,33 +62,14 @@ int main()
     }
     if (input == "help")  
     {
-      cout << "\nLTISim - Linear Time-Invariant System Simulator\n";
-      cout << "Type \"help\" for more information.\n";
-      cout << "Type \"system [filename]\" to extract an LTI " << 
-        "system from a file with the specified filename.\n";
-      cout << "Type any floating point number to add another " << 
-        "input to the LTI system.\n";
-      cout << "Type \"signal [filename]\" to extract a signal " << 
-        "from a file with the specified filename.\n";
-      cout << "Type \"clear\" to clear the application's memory " <<
-        " of previous inputs and outputs to 0.\n";
-      cout << "Type \"exit\" to exit the program.\n";
-      cout << "Type \"cls\" to clear the screen.\n";
+      printHelpMenu();
     }
     else if (input == "clear")
     {
-      LTISpecified = false;
-      signalSpecified = false;
-      duration = 0;
-      m = 0;
-      n = 0;
-      start = 0;
-      signalData = new double[0];
-      bData = new double[0];
-      aData = new double[0];
-      yData = new double[0];
-      xData = new double[0];
+      clearMemory(LTISpecified, signalSpecified, duration, m, n, 
+        start, signalData, bData, aData, yData, xData);
       cout << "Memory cleared.\n";
+      logFile << "clear\n";
     }
     else if (input == "exit")
     {
@@ -122,5 +112,6 @@ int main()
       }
     }
   }
+  logFile.close();
   return 0;
 }
