@@ -192,45 +192,53 @@ void clearMemory(bool& LTISpecified, bool& signalSpecified,
 }
 
 /**
- * validates if the LTI system file was successfully read and outputs
- * the results to the console
+ * runs the LTI system file check and outputs the results to the
+ * console and the log file.
  */
-void LTISystemFileCheck(string filename, double*& bData, 
-  double*& aData, int& m, int& n, bool& LTISpecified)
+void LTISystemCommand(string filename, double*& bData, 
+  double*& aData, int& m, int& n, bool& LTISpecified,
+  ofstream& logFile)
 {
   // import LTI system from file
   if (!importLTISystemFromFile(filename, bData, aData, m, n))
   {
     cout << "Unable to import a valid LTI system " 
       << "from " << filename << "\n";
+    return;
   }
-  else 
+  LTISpecified = true;
+  cout << "System obtained from " << filename << ". recursive "
+    << "coefficients: " << n << ", non-recursive " 
+    << "coefficients: " << m + 1 << "\n";
+  logFile << "new system\n";
+  for (int i = 0; i <= m; i++)
   {
-    cout << "System obtained from " << filename << ". recursive "
-      << "coefficients: " << n << ", non-recursive " 
-      << "coefficients: " << m + 1 << "\n";
-    LTISpecified = true;
+    logFile << bData[i] << "\n";
   }
+  for (int i = 0; i < n; i++)
+  {
+    logFile << aData[i] << "\n";
+  }
+  logFile << "ready\n";
 }
 
 /**
  * validates if the signal file was successfully read and outputs
- * the results to the console
+ * the results to the console and the log file. 
  */
-void signalFileCheck(string filename, double*& signalData, 
-  int& duration, int& start, bool& signalSpecified)
+void signalCommand(string filename, double*& signalData, 
+  int& duration, int& start, bool& signalSpecified, 
+  ofstream& logFile)
 {
   // import signal from file
   if (!importSignalFromFile(filename, signalData, duration))
   {
     cout << "Unable to import a valid signal from " << filename 
       << "\n";
+    return;
   }
-  else 
-  {
-    cout << "Signal obtained from " << filename << ". start"
-      << " index: " << start << ", duration: " << duration 
-      << "\n";
-    signalSpecified = true;
-  }
+  signalSpecified = true;
+  cout << "Signal obtained from " << filename << ". start"
+    << " index: " << start << ", duration: " << duration 
+    << "\n";
 }

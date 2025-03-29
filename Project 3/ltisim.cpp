@@ -79,12 +79,13 @@ int main()
     }
     else if (command == "system")
     {
-      LTISystemFileCheck(filename, bData, aData, m, n, LTISpecified);
+      LTISystemCommand(filename, bData, aData, m, n, LTISpecified,
+        logFile);
     }
     else if (command == "signal")
     {
-      signalFileCheck(filename, signalData, duration, start,
-        signalSpecified);
+      signalCommand(filename, signalData, duration, start,
+        signalSpecified, logFile);
     }
   }
   logFile.close();

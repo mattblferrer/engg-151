@@ -61,15 +61,17 @@ void clearMemory(bool& LTISpecified, bool& signalSpecified,
   ofstream& logFile);
 
 /**
- * validates if the LTI system file was successfully read and outputs
- * the results to the console
+ * runs the LTI system file check and outputs the results to the
+ * console and the log file.
  */
-void LTISystemFileCheck(string filename, double*& bData, 
-  double*& aData, int& m, int& n, bool& LTISpecified);
+void LTISystemCommand(string filename, double*& bData, 
+  double*& aData, int& m, int& n, bool& LTISpecified,
+  ofstream& logFile);
 
 /**
  * validates if the signal file was successfully read and outputs
- * the results to the console
+ * the results to the console and the log file. 
  */
-void signalFileCheck(string filename, double*& signalData, 
-  int& duration, int& start, bool& signalSpecified);
+void signalCommand(string filename, double*& signalData, 
+  int& duration, int& start, bool& signalSpecified, 
+  ofstream& logFile);
