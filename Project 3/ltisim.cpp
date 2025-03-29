@@ -28,6 +28,8 @@ int main()
   string filename;
   stringstream ss;
   int duration = 0;
+  int m = 0;
+  int n = 0;
   double* signalData = new double[0];
   double* aData = new double[0];
   double* bData = new double[0];
@@ -56,7 +58,14 @@ int main()
     }
     else if (input == "clear")
     {
-      
+      LTISpecified = false;
+      signalSpecified = false;
+      int duration = 0;
+      int m = 0;
+      int n = 0;
+      double* signalData = new double[0];
+      double* aData = new double[0];
+      double* bData = new double[0];
     }
     else if (input == "exit")
     {
@@ -68,7 +77,16 @@ int main()
     }
     else if (command == "system")
     {
-      
+      // import LTI system from file
+      if (!importLTISystemFromFile(filename, bData, aData, m, n))
+      {
+        cout << "Unable to import a valid LTI system " 
+          << "from " << filename << "\n";
+      }
+      else 
+      {
+        LTISpecified = true;
+      }
     }
     else if (command == "signal")
     {
@@ -77,9 +95,11 @@ int main()
       {
         cout << "Unable to import a valid signal from " << filename 
             << "\n";
-        return 1;
       }
-      continue;
+      else 
+      {
+        signalSpecified = true;
+      }
     }
   }
   return 0;
