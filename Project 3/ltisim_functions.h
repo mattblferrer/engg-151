@@ -40,10 +40,7 @@ bool importLTISystemFromFile(string filename, double*& b_data,
 void compute_outputs(double* acoeff, double* bcoeff,
   double* inputs, double* outputs, int sizea, int sizeb,
   double* input_samples, int nSamples,
-  double** output_samples)
-{
-
-}
+  double** output_samples);
 
 /**
  * prints the help menu for the program, invoked by typing the 
