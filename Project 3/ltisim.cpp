@@ -30,6 +30,7 @@ int main()
   int duration = 0;
   int m = 0;
   int n = 0;
+  int start = 0;
   double* signalData = new double[0];
   double* aData = new double[0];
   double* bData = new double[0];
@@ -63,6 +64,7 @@ int main()
       int duration = 0;
       int m = 0;
       int n = 0;
+      int start = 0;
       double* signalData = new double[0];
       double* aData = new double[0];
       double* bData = new double[0];
@@ -85,6 +87,9 @@ int main()
       }
       else 
       {
+        cout << "System obtained from " << filename << ". recursive "
+          << "coefficients: " << n << ", non-recursive " 
+          << "coefficients: " << m + 1 << "\n";
         LTISpecified = true;
       }
     }
@@ -94,10 +99,13 @@ int main()
       if (!importSignalFromFile(filename, signalData, duration))
       {
         cout << "Unable to import a valid signal from " << filename 
-            << "\n";
+          << "\n";
       }
       else 
       {
+        cout << "Signal obtained from " << filename << ". start"
+          << " index: " << start << ", duration: " << duration 
+          << "\n";
         signalSpecified = true;
       }
     }
