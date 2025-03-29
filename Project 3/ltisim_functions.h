@@ -45,4 +45,31 @@ void compute_outputs(double* acoeff, double* bcoeff,
 
 }
 
+/**
+ * prints the help menu for the program, invoked by typing the 
+ * command "help"
+ */
+void printHelpMenu();
 
+/**
+ * clears the memory of the program by setting all variables to 0 and 
+ * deleting all dynamically allocated arrays
+ */
+void clearMemory(bool& LTISpecified, bool& signalSpecified, 
+  int& duration, int& m, int& n, int& start, double*& signalData, 
+  double*& bData, double*& aData, double*& yData, double*& xData, 
+  ofstream& logFile);
+
+/**
+ * validates if the LTI system file was successfully read and outputs
+ * the results to the console
+ */
+void LTISystemFileCheck(string filename, double*& bData, 
+  double*& aData, int& m, int& n, bool& LTISpecified);
+
+/**
+ * validates if the signal file was successfully read and outputs
+ * the results to the console
+ */
+void signalFileCheck(string filename, double*& signalData, 
+  int& duration, int& start, bool& signalSpecified);

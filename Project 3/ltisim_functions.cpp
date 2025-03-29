@@ -137,7 +137,7 @@ bool importLTISystemFromFile(string filename, double*& b_data,
  * computes the outputs of the LTI system given the previous inputs, 
  * outputs, and coefficients of the system
  */
-void compute_outputs(double* acoeff, double* bcoeff,
+void computeOutputs(double* acoeff, double* bcoeff,
   double* inputs, double* outputs, int sizea, int sizeb,
   double* input_samples, int nSamples,
   double** output_samples)
@@ -173,7 +173,8 @@ void printHelpMenu()
  */
 void clearMemory(bool& LTISpecified, bool& signalSpecified, 
   int& duration, int& m, int& n, int& start, double*& signalData, 
-  double*& bData, double*& aData, double*& yData, double*& xData)
+  double*& bData, double*& aData, double*& yData, double*& xData, 
+  ofstream& logFile)
 {
   LTISpecified = false;
   signalSpecified = false;
@@ -186,4 +187,50 @@ void clearMemory(bool& LTISpecified, bool& signalSpecified,
   aData = new double[0];
   yData = new double[0];
   xData = new double[0];
+  cout << "Memory cleared.\n";
+  logFile << "clear\n";
+}
+
+/**
+ * validates if the LTI system file was successfully read and outputs
+ * the results to the console
+ */
+void LTISystemFileCheck(string filename, double*& bData, 
+  double*& aData, int& m, int& n, bool& LTISpecified)
+{
+  // import LTI system from file
+  if (!importLTISystemFromFile(filename, bData, aData, m, n))
+  {
+    cout << "Unable to import a valid LTI system " 
+      << "from " << filename << "\n";
+  }
+  else 
+  {
+    cout << "System obtained from " << filename << ". recursive "
+      << "coefficients: " << n << ", non-recursive " 
+      << "coefficients: " << m + 1 << "\n";
+    LTISpecified = true;
+  }
+}
+
+/**
+ * validates if the signal file was successfully read and outputs
+ * the results to the console
+ */
+void signalFileCheck(string filename, double*& signalData, 
+  int& duration, int& start, bool& signalSpecified)
+{
+  // import signal from file
+  if (!importSignalFromFile(filename, signalData, duration))
+  {
+    cout << "Unable to import a valid signal from " << filename 
+      << "\n";
+  }
+  else 
+  {
+    cout << "Signal obtained from " << filename << ". start"
+      << " index: " << start << ", duration: " << duration 
+      << "\n";
+    signalSpecified = true;
+  }
 }

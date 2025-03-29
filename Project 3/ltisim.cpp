@@ -67,9 +67,7 @@ int main()
     else if (input == "clear")
     {
       clearMemory(LTISpecified, signalSpecified, duration, m, n, 
-        start, signalData, bData, aData, yData, xData);
-      cout << "Memory cleared.\n";
-      logFile << "clear\n";
+        start, signalData, bData, aData, yData, xData, logFile);
     }
     else if (input == "exit")
     {
@@ -81,35 +79,12 @@ int main()
     }
     else if (command == "system")
     {
-      // import LTI system from file
-      if (!importLTISystemFromFile(filename, bData, aData, m, n))
-      {
-        cout << "Unable to import a valid LTI system " 
-          << "from " << filename << "\n";
-      }
-      else 
-      {
-        cout << "System obtained from " << filename << ". recursive "
-          << "coefficients: " << n << ", non-recursive " 
-          << "coefficients: " << m + 1 << "\n";
-        LTISpecified = true;
-      }
+      LTISystemFileCheck(filename, bData, aData, m, n, LTISpecified);
     }
     else if (command == "signal")
     {
-      // import signal from file
-      if (!importSignalFromFile(filename, signalData, duration))
-      {
-        cout << "Unable to import a valid signal from " << filename 
-          << "\n";
-      }
-      else 
-      {
-        cout << "Signal obtained from " << filename << ". start"
-          << " index: " << start << ", duration: " << duration 
-          << "\n";
-        signalSpecified = true;
-      }
+      signalFileCheck(filename, signalData, duration, start,
+        signalSpecified);
     }
   }
   logFile.close();
