@@ -132,3 +132,11 @@ bool importLTISystemFromFile(string filename, double*& b_data,
 
   return true;
 }
+
+void compute_outputs (double* acoeff, double* bcoeff,
+  double* inputs, double* outputs, int sizea, int sizeb,
+  double* input_samples, int nSamples,
+  double** output_samples)
+{
+
+}

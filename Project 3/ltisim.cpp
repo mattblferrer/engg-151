@@ -32,8 +32,11 @@ int main()
   int n = 0;
   int start = 0;
   double* signalData = new double[0];
-  double* aData = new double[0];
   double* bData = new double[0];
+  double* aData = new double[0];
+  double* yData = new double[0];
+  double* xData = new double[0];
+  double doubleTest = 0.0;
   
   cout << "LTISim\nType \"help\" for more information.\n";
   while (!exitTyped)
@@ -42,6 +45,12 @@ int main()
     getline(cin, input);
     ss.str(input);
     ss >> command >> filename;
+    ss.clear();
+    ss.str(input);
+    if (ss >> doubleTest)  // check if input is a floating point n
+    {
+
+    }
     if (input == "help")  
     {
       cout << "\nLTISim - Linear Time-Invariant System Simulator\n";
@@ -66,8 +75,11 @@ int main()
       int n = 0;
       int start = 0;
       double* signalData = new double[0];
-      double* aData = new double[0];
       double* bData = new double[0];
+      double* aData = new double[0];
+      double* yData = new double[0];
+      double* xData = new double[0];
+      cout << "Memory cleared.\n";
     }
     else if (input == "exit")
     {
