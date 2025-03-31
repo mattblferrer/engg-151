@@ -104,6 +104,10 @@ bool importLTISystemFromFile(string filename, double*& b_data,
   ss.str(line);
   if (!(ss >> n)) return false; // checks if there is a second line
   ss.clear();
+
+  // validate that (M + 1) and (N) are nonnegative and nonzero
+  if (m < 0 || n < 0) return false;
+  
   m--;
 
   // allocate double arrays for b_data and a_data
