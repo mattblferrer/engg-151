@@ -71,7 +71,6 @@ int main()
     }
     else if (input == "clear")
     {
-      
       clearMemory(LTISpecified, signalSpecified, duration, m, n, 
         start, signalData, bData, aData, yData, xData, logFile);
     }
