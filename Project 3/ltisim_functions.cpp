@@ -133,20 +133,9 @@ bool importLTISystemFromFile(string filename, double*& b_data,
     if (!(ss >> value)) return false; // checks if there is a value
     a_temp_data[i] = value;
   }
-
-  //allocate double arrays for b_data and a_data
-  b_data = new double[m + 1];
-  a_data = new double[n];
-
-  // get b_data and a_data from temporary arrays
-  for (int i = 0; i <= m; i++)
-  {
-    b_data[i] = b_temp_data[i];
-  }
-  for (int i = 0; i < n; i++)
-  {
-    a_data[i] = a_temp_data[i];
-  }
+  b_data = b_temp_data;
+  a_data = a_temp_data;
+  myfile.close();
 
   return true;
 }
