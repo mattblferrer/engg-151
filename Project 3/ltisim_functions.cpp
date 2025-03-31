@@ -183,6 +183,11 @@ void clearMemory(bool& LTISpecified, bool& signalSpecified,
   double*& bData, double*& aData, double*& yData, double*& xData, 
   ofstream& logFile)
 {
+  if (!LTISpecified && !signalSpecified)
+  {
+    cout << "No specified LTI system or signal.\n";
+    return;
+  }
   LTISpecified = false;
   signalSpecified = false;
   duration = 0;
@@ -194,6 +199,9 @@ void clearMemory(bool& LTISpecified, bool& signalSpecified,
   aData = new double[0];
   yData = new double[0];
   xData = new double[0];
+
+  cout << "Memory cleared.\n";
+  logFile << "clear\n";
 }
 
 /**
@@ -201,8 +209,8 @@ void clearMemory(bool& LTISpecified, bool& signalSpecified,
  * console and the log file.
  */
 void LTISystemCommand(string filename, double*& bData, 
-  double*& aData, int& m, int& n, bool& LTISpecified,
-  ofstream& logFile)
+  double*& aData, double*& yData, double*& xData, 
+  int& m, int& n, bool& LTISpecified, ofstream& logFile)
 {
   // import LTI system from file
   if (!importLTISystemFromFile(filename, bData, aData, m, n))
@@ -211,7 +219,12 @@ void LTISystemCommand(string filename, double*& bData,
       << "from " << filename << "\n";
     return;
   }
+
+  // clear memory of previous LTI system
+  yData = new double[0];
+  xData = new double[0];
   LTISpecified = true;
+  
   cout << "System obtained from " << filename << ". recursive "
     << "coefficients: " << n << ", non-recursive " 
     << "coefficients: " << m + 1 << "\n";

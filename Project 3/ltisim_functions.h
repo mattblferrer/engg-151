@@ -62,8 +62,8 @@ void clearMemory(bool& LTISpecified, bool& signalSpecified,
  * console and the log file.
  */
 void LTISystemCommand(string filename, double*& bData, 
-  double*& aData, int& m, int& n, bool& LTISpecified,
-  ofstream& logFile);
+  double*& aData, double*& yData, double*& xData, 
+  int& m, int& n, bool& LTISpecified, ofstream& logFile);
 
 /**
  * validates if the signal file was successfully read and outputs
