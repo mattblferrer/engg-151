@@ -23,6 +23,7 @@ int main()
   bool exitTyped = false;
   bool LTISpecified = false;
   bool signalSpecified = false;
+  char extra;
   string input;
   string command;
   string filename;
@@ -50,17 +51,21 @@ int main()
   // program loop, will only exit when command exit is typed
   while (!exitTyped)
   {
+    
     ss.clear();
+    cout << "ltisim> ";
     getline(cin, input);
     ss.str(input);
     ss >> command >> filename;
     ss.clear();
     ss.str(input);
-    if (ss >> doubleTest)  // check if input is a floating point n
-    {
 
+     // check if input is a floating point number
+    if (ss >> doubleTest && !(ss >> extra)) 
+    {
+      
     }
-    if (input == "help")  
+    else if (input == "help")  
     {
       printHelpMenu();
     }
@@ -86,6 +91,10 @@ int main()
     {
       signalCommand(filename, signalData, duration, start,
         signalSpecified, logFile);
+    }
+    else
+    {
+      cout << "Invalid command.\n"; 
     }
   }
   logFile.close();
