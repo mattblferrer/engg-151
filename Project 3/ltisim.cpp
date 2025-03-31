@@ -90,7 +90,7 @@ int main()
     else if (command == "signal")
     {
       signalCommand(filename, signalData, duration, start,
-        signalSpecified, logFile);
+        signalSpecified, LTISpecified, logFile);
     }
     else
     {

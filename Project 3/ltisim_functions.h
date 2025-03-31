@@ -71,4 +71,4 @@ void LTISystemCommand(string filename, double*& bData,
  */
 void signalCommand(string filename, double*& signalData, 
   int& duration, int& start, bool& signalSpecified, 
-  ofstream& logFile);
+  bool& LTISpecified, ofstream& logFile);
