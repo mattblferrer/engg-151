@@ -183,13 +183,6 @@ void clearMemory(bool& LTISpecified, bool& signalSpecified,
   double*& bData, double*& aData, double*& yData, double*& xData, 
   ofstream& logFile)
 {
-  // validate if there is an LTI system to be cleared
-  if (LTISpecified == false) 
-  {
-    cout << "No specified LTI system.\n";
-    return;
-  }
-
   LTISpecified = false;
   signalSpecified = false;
   duration = 0;
@@ -201,8 +194,6 @@ void clearMemory(bool& LTISpecified, bool& signalSpecified,
   aData = new double[0];
   yData = new double[0];
   xData = new double[0];
-  cout << "Memory cleared.\n";
-  logFile << "clear\n";
 }
 
 /**
@@ -245,12 +236,11 @@ void signalCommand(string filename, double*& signalData,
   bool& LTISpecified, ofstream& logFile)
 {
   // validate if there is an LTI system loaded for the signal
-  if (LTISpecified == false) 
+  if (!LTISpecified) 
   {
     cout << "No specified LTI system.\n";
     return;
   }
-
   // import signal from file
   if (!importSignalFromFile(filename, signalData, duration))
   {
