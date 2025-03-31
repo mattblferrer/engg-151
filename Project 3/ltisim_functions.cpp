@@ -107,14 +107,14 @@ bool importLTISystemFromFile(string filename, double*& b_data,
 
   // validate that (M + 1) and (N) are nonnegative and nonzero
   if (m < 0 || n < 0) return false;
-  
+
   m--;
 
-  // allocate double arrays for b_data and a_data
-  b_data = new double[m + 1];
-  a_data = new double[n];
+  // temporary double arrays for temporary b_data and a_data
+  double* b_temp_data = new double[m + 1];
+  double* a_temp_data = new double[n];
 
-  // get b_data and a_data from files
+  // validate b_data and a_data from files
   for (int i = 0; i <= m; i++)
   {
     ss.clear();
@@ -122,7 +122,7 @@ bool importLTISystemFromFile(string filename, double*& b_data,
     ss.str(line);
     double value;
     if (!(ss >> value)) return false; // checks if there is a value
-    b_data[i] = value;
+    b_temp_data[i] = value;
   }
   for (int i = 0; i < n; i++)
   {
@@ -131,7 +131,21 @@ bool importLTISystemFromFile(string filename, double*& b_data,
     ss.str(line);
     double value;
     if (!(ss >> value)) return false; // checks if there is a value
-    a_data[i] = value;
+    a_temp_data[i] = value;
+  }
+
+  //allocate double arrays for b_data and a_data
+  b_data = new double[m + 1];
+  a_data = new double[n];
+
+  // get b_data and a_data from temporary arrays
+  for (int i = 0; i <= m; i++)
+  {
+    b_data[i] = b_temp_data[i];
+  }
+  for (int i = 0; i < n; i++)
+  {
+    a_data[i] = a_temp_data[i];
   }
 
   return true;
