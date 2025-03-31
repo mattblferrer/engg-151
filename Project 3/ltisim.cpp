@@ -71,6 +71,11 @@ int main()
     }
     else if (input == "clear")
     {
+      if (!LTISpecified && !signalSpecified)
+      {
+        cout << "No specified LTI system or signal.\n";
+        continue;
+      }
       clearMemory(LTISpecified, signalSpecified, duration, m, n, 
         start, signalData, bData, aData, yData, xData, logFile);
     }
@@ -86,6 +91,8 @@ int main()
     {
       LTISystemCommand(filename, bData, aData, m, n, LTISpecified,
         logFile);
+      clearMemory(LTISpecified, signalSpecified, duration, m, n, 
+        start, signalData, bData, aData, yData, xData, logFile);
     }
     else if (command == "signal")
     {
