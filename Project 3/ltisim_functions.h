@@ -37,7 +37,7 @@ bool importLTISystemFromFile(string filename, double*& b_data,
  * computes the outputs of the LTI system given the previous inputs, 
  * outputs, and coefficients of the system
  */
-void compute_outputs(double* acoeff, double* bcoeff,
+void computeOutputs(double* acoeff, double* bcoeff,
   double* inputs, double* outputs, int sizea, int sizeb,
   double* input_samples, int nSamples,
   double** output_samples);
