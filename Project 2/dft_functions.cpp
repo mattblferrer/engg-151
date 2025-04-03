@@ -17,6 +17,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include "dft_functions.h"
 
 using namespace std;
 

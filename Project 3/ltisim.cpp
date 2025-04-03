@@ -14,7 +14,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
-#include "ltisim_functions.cpp"
+#include "ltisim_functions.h"
 
 using namespace std;
 

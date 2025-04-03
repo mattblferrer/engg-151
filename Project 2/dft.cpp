@@ -8,14 +8,14 @@
  * ENGG 151.01 - A
  */
 
- #include <cmath>
- #include <fstream>
- #include <iomanip>
- #include <iostream>
- #include <sstream>
- #include <string>
- #include <vector>
- #include "dft_functions.h"
+#include <cmath>
+#include <fstream>
+#include <iomanip>
+#include <iostream>
+#include <sstream>
+#include <string>
+#include <vector>
+#include "dft_functions.h"
 
 using namespace std;
 
