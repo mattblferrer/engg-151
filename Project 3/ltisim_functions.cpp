@@ -150,6 +150,8 @@ void computeOutputs(double* acoeff, double* bcoeff,
   double* input_samples, int nSamples,
   double** output_samples)
 {
+  int initial_outputs = sizea - 1;
+  int initial_inputs = sizeb - 1;
 
   // allocate memory for output samples
   (*output_samples) = new double[nSamples];
@@ -188,9 +190,43 @@ void computeOutputs(double* acoeff, double* bcoeff,
     }
   }
 
-  // copying value to outputs array
-  outputs = *output_samples;
+  // append input_samples to inputs
+  double* extended_inputs = new double[initial_inputs + nSamples];
 
+  // copy old inputs
+  for (int i = 0; i < initial_inputs; i++)
+  {
+    extended_inputs[i] = inputs[i];
+  }
+
+  // append new input_samples
+  for (int i = 0; i < nSamples; i++)
+  {
+    extended_inputs[initial_inputs + i] = input_samples[i];
+  }
+
+  // replace old inputs array
+  delete[] inputs;
+  inputs = extended_inputs;
+  
+  // append output_samples to outputs
+  double* extended_outputs = new double[initial_outputs + nSamples];
+
+  // copy original outputs
+  for (int i = 0; i < initial_outputs; i++)
+  {
+    extended_outputs[i] = outputs[i];
+  }
+
+  // copy computed outputs
+  for (int i = 0; i < nSamples; i++)
+  {
+    extended_outputs[initial_outputs + i] = (*output_samples)[i];
+  }
+
+  // replace old outputs array
+  delete[] outputs;
+  outputs = extended_outputs;
 }
 
 /**
