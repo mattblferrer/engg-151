@@ -151,6 +151,46 @@ void computeOutputs(double* acoeff, double* bcoeff,
   double** output_samples)
 {
 
+  // allocate memory for output samples
+  (*output_samples) = new double[nSamples];
+  for (int i = 0; i < nSamples; i++)
+  {
+    (*output_samples)[i] = 0.0;
+  }
+
+  // compute the outputs of the LTI system
+  for (int i = 0; i < nSamples; i++)
+  {
+    // input side which uses bcoeff
+    for (int j = 0; j < sizeb; j++)
+    {
+      if (i - j >= 0)
+      {
+        (*output_samples)[i] += bcoeff[j] * input_samples[i - j];
+      }
+      else
+      {
+        (*output_samples)[i] += bcoeff[j] * inputs[sizeb + i - j];
+      }
+    }
+
+    // output side which uses acoeff
+    for (int j = 1; j < sizea; j++)
+    {
+      if (i - j >= 0)
+      {
+        (*output_samples)[i] -= acoeff[j] * (*output_samples)[i - j];
+      }
+      else
+      {
+        (*output_samples)[i] -= acoeff[j] * outputs[sizea + i - j];
+      }
+    }
+  }
+
+  // copying value to outputs array
+  outputs = *output_samples;
+
 }
 
 /**
