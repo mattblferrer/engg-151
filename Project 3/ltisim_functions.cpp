@@ -41,7 +41,7 @@ bool importSignalFromFile(string filename, double*& outputData,
   getline(myfile, line);
   ss.str(line);
 
-  if (!(ss >> first)) return false; // checks if there is a first line
+  if (!(ss >> first)) return false; // checks if first line exists
 
   // checks the first line if there is an optional starting index
   if (!(ss >> second)) data.push_back(stod(first)); // no index
@@ -145,88 +145,47 @@ bool importLTISystemFromFile(string filename, double*& b_data,
  * computes the outputs of the LTI system given the previous inputs, 
  * outputs, and coefficients of the system
  */
-void computeOutputs(double* acoeff, double* bcoeff,
-  double* inputs, double* outputs, int sizea, int sizeb,
-  double* input_samples, int nSamples,
-  double** output_samples)
+void computeOutputs(double* aData, double* bData,
+  double* xData, double*& yData, int n, int m)
 {
-  int initial_outputs = sizea - 1;
-  int initial_inputs = sizeb - 1;
-
-  // allocate memory for output samples
-  (*output_samples) = new double[nSamples];
-  for (int i = 0; i < nSamples; i++)
+  // calculate y(n) as a sum of previous outputs and inputs
+  double y_n = 0.0;
+  for (int i = 0; i < n; i++)
   {
-    (*output_samples)[i] = 0.0;
+    y_n -= aData[i] * yData[i];
   }
-
-  // compute the outputs of the LTI system
-  for (int i = 0; i < nSamples; i++)
+  for (int i = 0; i < m + 1; i++)
   {
-    // input side which uses bcoeff
-    for (int j = 0; j < sizeb; j++)
-    {
-      if (i - j >= 0)
-      {
-        (*output_samples)[i] += bcoeff[j] * input_samples[i - j];
-      }
-      else
-      {
-        (*output_samples)[i] += bcoeff[j] * inputs[sizeb + i - j];
-      }
-    }
-
-    // output side which uses acoeff
-    for (int j = 1; j < sizea; j++)
-    {
-      if (i - j >= 0)
-      {
-        (*output_samples)[i] -= acoeff[j] * (*output_samples)[i - j];
-      }
-      else
-      {
-        (*output_samples)[i] -= acoeff[j] * outputs[sizea + i - j];
-      }
-    }
+    y_n += bData[i] * xData[i];
   }
-
-  // append input_samples to inputs
-  double* extended_inputs = new double[initial_inputs + nSamples];
-
-  // copy old inputs
-  for (int i = 0; i < initial_inputs; i++)
+  for (int i = n - 1; i >= 1; i--) 
   {
-    extended_inputs[i] = inputs[i];
+    yData[i] = yData[i - 1];
   }
+  yData[0] = y_n;  // update y(n) to the new value
+}
 
-  // append new input_samples
-  for (int i = 0; i < nSamples; i++)
+/**
+ * adds the input x(n) to the LTI system and computes the output y(n)
+ */
+void inputCommand(double input, bool LTISpecified, 
+  double*& aData, double*& bData, double*& xData, double*& yData, 
+  int n, int m, ofstream& logFile) 
+{
+  // check if there is an LTI system specified
+  if (!LTISpecified) 
   {
-    extended_inputs[initial_inputs + i] = input_samples[i];
+    cout << "Cannot simulate. No system defined.\n";
+    return;
   }
-
-  // replace old inputs array
-  delete[] inputs;
-  inputs = extended_inputs;
-  
-  // append output_samples to outputs
-  double* extended_outputs = new double[initial_outputs + nSamples];
-
-  // copy original outputs
-  for (int i = 0; i < initial_outputs; i++)
+  for (int i = m; i >= 1; i--) 
   {
-    extended_outputs[i] = outputs[i];
+    xData[i] = xData[i - 1];
   }
-
-  // copy computed outputs
-  for (int i = 0; i < nSamples; i++)
-  {
-    extended_outputs[initial_outputs + i] = (*output_samples)[i];
-  }
-
-  // replace old outputs array
-  delete[] outputs;
-  outputs = extended_outputs;
+  xData[0] = input;
+  computeOutputs(aData, bData, xData, yData, n, m);
+  cout << yData[0] << "\n";
+  logFile << xData[0] << "\t" << yData[0] << "\n";
 }
 
 /**
@@ -298,15 +257,23 @@ void LTISystemCommand(string filename, double*& bData,
   }
 
   // clear memory of previous LTI system
-  yData = new double[0];
-  xData = new double[0];
+  yData = new double[n];
+  xData = new double[m + 1];
+  for (int i = 0; i < n; i++)
+  {
+    yData[i] = 0.0;
+  }
+  for (int i = 0; i < m + 1; i++)
+  {
+    xData[i] = 0.0;
+  }
   LTISpecified = true;
   
   cout << "System obtained from " << filename << ". recursive "
     << "coefficients: " << n << ", non-recursive " 
     << "coefficients: " << m + 1 << "\n";
   logFile << "new system\n";
-  for (int i = 0; i <= m; i++)
+  for (int i = 0; i < m; i++)
   {
     logFile << bData[i] << "\n";
   }
@@ -342,4 +309,24 @@ void signalCommand(string filename, double*& signalData,
   cout << "Signal obtained from " << filename << ". start"
     << " index: " << start << ", duration: " << duration 
     << "\n";
+}
+
+/**
+ * outputs the signal data to the console and the log file
+ */
+void signalEvaluation(const double* signalData, const int duration, 
+  double* bData, double* aData, double*& yData, double*& xData, 
+  const int m, const int n, ofstream& logFile)
+{
+  for (int i = 0; i < duration; i++)
+  {
+    for (int i = m; i >= 1; i--) 
+    {
+      xData[i] = xData[i - 1];
+    }
+    xData[0] = signalData[i];
+    computeOutputs(aData, bData, xData, yData, n, m);
+    cout << xData[0] << "\t" << yData[0] << "\n";
+    logFile << xData[0] << "\t" << yData[0] << "\n";
+  }
 }

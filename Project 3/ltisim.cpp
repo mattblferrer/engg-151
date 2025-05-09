@@ -63,7 +63,8 @@ int main()
      // check if input is a floating point number
     if (ss >> doubleTest && !(ss >> extra)) 
     {
-      
+      inputCommand(doubleTest, LTISpecified, aData, bData, xData, 
+        yData, n, m, logFile);
     }
     else if (input == "help")  
     {
@@ -91,6 +92,10 @@ int main()
     {
       signalCommand(filename, signalData, duration, start,
         signalSpecified, LTISpecified, logFile);
+      if (signalSpecified) {
+        signalEvaluation(signalData, duration, bData, aData, yData,
+          xData, m, n, logFile);
+      }
     }
     else
     {

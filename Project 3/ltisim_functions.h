@@ -37,10 +37,15 @@ bool importLTISystemFromFile(string filename, double*& b_data,
  * computes the outputs of the LTI system given the previous inputs, 
  * outputs, and coefficients of the system
  */
-void computeOutputs(double* acoeff, double* bcoeff,
-  double* inputs, double* outputs, int sizea, int sizeb,
-  double* input_samples, int nSamples,
-  double** output_samples);
+void computeOutputs(double* aData, double* bData,
+  double* xData, double*& yData, int n, int m);
+
+/**
+ * adds the input x(n) to the LTI system and computes the output y(n)
+ */
+void inputCommand(double input, bool LTISpecified, 
+  double*& aData, double*& bData, double*& xData, double*& yData, 
+  int n, int m, ofstream& logFile);
 
 /**
  * prints the help menu for the program, invoked by typing the 
@@ -72,3 +77,10 @@ void LTISystemCommand(string filename, double*& bData,
 void signalCommand(string filename, double*& signalData, 
   int& duration, int& start, bool& signalSpecified, 
   bool& LTISpecified, ofstream& logFile);
+
+/**
+ * outputs the signal data to the console and the log file
+ */
+void signalEvaluation(const double* signalData, const int duration, 
+  double* bData, double* aData, double*& yData, double*& xData, 
+  const int m, const int n, ofstream& logFile);
