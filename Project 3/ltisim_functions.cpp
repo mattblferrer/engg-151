@@ -24,7 +24,7 @@ using namespace std;
  * returns false otherwise
  */
 bool importSignalFromFile(string filename, double*& outputData,
-  int& duration)
+  int& duration, int& start)
 {
   ifstream myfile;
   stringstream ss;
@@ -36,6 +36,10 @@ bool importSignalFromFile(string filename, double*& outputData,
   // check if filename is valid
   myfile.open(filename);
   if (!(myfile.is_open())) return false;
+
+  // clear variables
+  duration = 0;
+  start = 0;
 
   // get first line of file
   getline(myfile, line);
@@ -76,6 +80,8 @@ bool importSignalFromFile(string filename, double*& outputData,
   {
     outputData[i] = data[i];
   }
+
+  start = stoi(first); // return starting index
   
   return true;
 }
@@ -184,7 +190,7 @@ void inputCommand(double input, bool LTISpecified,
   }
   xData[0] = input;
   computeOutputs(aData, bData, xData, yData, n, m);
-  cout << yData[0] << "\n";
+  cout << "\t" << yData[0] << "\n";
   logFile << xData[0] << "\t" << yData[0] << "\n";
 }
 
@@ -299,7 +305,7 @@ void signalCommand(string filename, double*& signalData,
     return;
   }
   // import signal from file
-  if (!importSignalFromFile(filename, signalData, duration))
+  if (!importSignalFromFile(filename, signalData, duration, start))
   {
     cout << "Unable to import a valid signal from " << filename 
       << "\n";
@@ -326,7 +332,8 @@ void signalEvaluation(const double* signalData, const int duration,
     }
     xData[0] = signalData[i];
     computeOutputs(aData, bData, xData, yData, n, m);
-    cout << xData[0] << "\t" << yData[0] << "\n";
+    if (duration <= 10)
+      cout << xData[0] << "\t" << yData[0] << "\n";
     logFile << xData[0] << "\t" << yData[0] << "\n";
   }
 }
