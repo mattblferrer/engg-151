@@ -191,7 +191,7 @@ void inputCommand(double input, bool LTISpecified,
   xData[0] = input;
   computeOutputs(aData, bData, xData, yData, n, m);
   cout << "\t" << yData[0] << "\n";
-  logFile << xData[0] << "\t" << yData[0] << "\n";
+  logFile << xData[0] << " \t" << yData[0] << "\n";
 }
 
 /**
@@ -333,7 +333,7 @@ void signalEvaluation(const double* signalData, const int duration,
     xData[0] = signalData[i];
     computeOutputs(aData, bData, xData, yData, n, m);
     if (duration <= 10)
-      cout << xData[0] << "\t" << yData[0] << "\n";
-    logFile << xData[0] << "\t" << yData[0] << "\n";
+      cout << xData[0] << " \t" << yData[0] << "\n";
+    logFile << xData[0] << " \t" << yData[0] << "\n";
   }
 }
