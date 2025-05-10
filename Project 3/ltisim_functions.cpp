@@ -236,6 +236,11 @@ void clearMemory(bool& LTISpecified, bool& signalSpecified,
   m = 0;
   n = 0;
   start = 0;
+  delete[] signalData;
+  delete[] bData;
+  delete[] aData;
+  delete[] yData;
+  delete[] xData;
   signalData = new double[0];
   bData = new double[0];
   aData = new double[0];
@@ -263,6 +268,8 @@ void LTISystemCommand(string filename, double*& bData,
   }
 
   // clear memory of previous LTI system
+  delete[] yData;
+  delete[] xData;
   yData = new double[n];
   xData = new double[m + 1];
   for (int i = 0; i < n; i++)
