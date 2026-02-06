@@ -1,0 +1,11 @@
+ENGG 151.01 - Signals, Spectra, and Signal Processing, Lecture
+- Project 1: Normalized Cross-Correlation
+  - Calculates the normalized cross-correlation of two finite-duration signals, given as a signal-formatted csv file.
+  - Uses command line argument [executable name] xdata ydata output-filename, where xdata and ydata contain signal data.
+- Project 2: Fourier Transform
+  - Calculates the Discrete Fourier Transform (DFT) of a finite duration signal. Uses the following syntax: 
+    - [executable name] signal-file sampling-rate start-freq end-freq nSteps (logfile)
+- Project 3: Linear Time-Invariant System Simulator
+  - Simulates a linear time-invariant system given as a linear constant-coefficient difference equation.
+  - Uses LTI system file formatted files, which provide system details as coefficients of polynomials.
+  - More information about the program can be obtained by typing "help" in the UI.
